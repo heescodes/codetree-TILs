@@ -31,7 +31,7 @@ while(idx < len(arr)-1):
         idx = END+1
     else:
         idx += 1
-    print('------------')
+    #print('------------')
 
 '''
 def cal_seqcnt(start):
