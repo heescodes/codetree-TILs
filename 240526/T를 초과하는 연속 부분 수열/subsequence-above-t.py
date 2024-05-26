@@ -13,7 +13,7 @@ def cal_seqcnt(t):
         END = i
         if arr[idx+1] > t:
             tmpcnt += 1
-            print(f'tmpcnt: {tmpcnt}')
+            #print(f'tmpcnt: {tmpcnt}')
         else:
             #END = i
             break
@@ -25,9 +25,9 @@ idx = 0
 while(idx < len(arr)-1):
     if arr[idx] > t:
         START = idx
-        print(f'START:{START}')
+        #print(f'START:{START}')
         cal_seqcnt(t)
-        print(f'END:{END}')
+        #print(f'END:{END}')
         idx = END+1
     else:
         idx += 1
