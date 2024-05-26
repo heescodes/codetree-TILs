@@ -10,12 +10,13 @@ def cal_seqcnt(t):
     global seqcnt, START, END
     tmpcnt = 1
     for i in range(START, len(arr)-1):
-        END = i
-        if arr[idx+1] > t:
+        #print(f'i: {i}')
+        if arr[i+1] > t:
             tmpcnt += 1
+            END = i
             #print(f'tmpcnt: {tmpcnt}')
         else:
-            #END = i
+            END = i
             break
             #print(f'i: {i}')
     seqcnt = max(tmpcnt, seqcnt)
