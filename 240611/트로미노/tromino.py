@@ -34,11 +34,9 @@ def type2_max_search():
             #case ㅣ
             if (cen[Y]-1 >= 0) and (cen[Y]+1 <= n-1):
                 tmp1 = arr[b][a] + arr[b-1][a] + arr[b+1][a]
-                #print(f'tmp1:{tmp1}')
             #case ㅡ
-            if (cen[X]-1 >= 0) and (cen[X]+1 <= n-1):
+            if (cen[X]-1 >= 0) and (cen[X]+1 <= m-1):
                 tmp2 = arr[b][a] + arr[b][a-1] + arr[b][a+1]
-                #print(f'tmp2:{tmp2}')
             res = max(res,tmp1,tmp2)
     return res
 
