@@ -10,13 +10,13 @@ def type1_max_search():
             tmp1,tmp2,tmp3,tmp4 = 0,0,0,0 
             cen = (a,b)
             #case └
-            if (cen[Y]-1 >= 0) and (cen[X]+1 <= n-1):
+            if (cen[Y]-1 >= 0) and (cen[X]+1 <= m-1):
                 tmp1 = arr[b][a] + arr[b-1][a] + arr[b][a+1]
             #case ┘
             if (cen[Y]-1 >= 0) and (cen[X]-1 >= 0):
                 tmp2 = arr[b][a] + arr[b-1][a] + arr[b][a-1]
             #case ┌
-            if (cen[Y]+1 <= n-1) and (cen[X]+1 <= n-1):   
+            if (cen[Y]+1 <= n-1) and (cen[X]+1 <= m-1):   
                 tmp3 = arr[b][a] + arr[b+1][a] + arr[b][a+1]    
             #case ┐
             if (cen[Y]+1 <= n-1) and (cen[X]-1 >= 0):   
