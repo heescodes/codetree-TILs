@@ -23,7 +23,7 @@ for r in range(n):
     for c in range(m):
         for w in range(1,m-r+1):
             for l in range(1,n-c+1):
-                if is_valid_squ(r,c,w,l) == True:
+                if is_in_range(r,c,w,l) and is_valid_squ(r,c,w,l):
                     res = max(res, w*l)
 
 if res == 0:
