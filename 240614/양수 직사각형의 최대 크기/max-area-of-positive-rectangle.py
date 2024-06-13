@@ -15,10 +15,9 @@ def is_in_range(x,y,w,l):
 def is_valid_squ(x,y,w,l):
     for i in range(x,x+w):
         for j in range(y,y+l):
-            if arr[j][i] < 0:
+            if arr[j][i] <= 0:
                 return False
     return True
-
 
 for r in range(n):
     for c in range(m):
