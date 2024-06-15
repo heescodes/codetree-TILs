@@ -16,20 +16,21 @@ def get_RLE():
     pre_key = strs[0]
     #print(f'strs:{strs}')
     for i in range(len(strs)):
-        if i == len(strs)-1:
-            res.append(pre_key)
-            res.append(cnt)
-                
         cur_key = strs[i]
         if pre_key != cur_key:
             res.append(pre_key)
-            res.append(cnt)
+            res.append(str(cnt))
             cnt = 1
         else:    
             cnt += 1
 
-        pre_key = cur_key 
+        if i == len(strs)-1:
+            res.append(pre_key)
+            res.append(str(cnt))
+        else:    
+            pre_key = cur_key 
 
+    res = ''.join(res)    
     return res
 
 #main
@@ -38,7 +39,7 @@ res_len = 1000
 
 for _ in range(len(strs)):
     rle = get_RLE()
-    #print(rle)
+    #''.join(rle)
     res_len = min(len(rle),res_len)
     rshft()
 
