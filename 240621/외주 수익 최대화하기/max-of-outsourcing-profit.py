@@ -19,7 +19,7 @@ def get_profit(worknum):
 
 #cur_work = 1
 #nxt_work = 2
-total_profit = 0
+#total_profit = 0
 result = 0
 
 
@@ -38,15 +38,22 @@ def dfs(cur_work, nxt_work):
             total_profit += get_profit(cur_work) + get_profit(nxt_work)
         return
 
+    if cur_work > n:
+        return
+
     if end_date(cur_work) < start_date(nxt_work): #다음작업실행가능
         total_profit += get_profit(cur_work)
+        #print(f'cur_work, nxt_work, total_profit : {cur_work}, {nxt_work}, {total_profit}')
         cur_work = nxt_work
 
     dfs(cur_work, nxt_work+1)
     return
 
 for i in range(1, n):
+    total_profit = 0
+    #print(f'i={i}')
     dfs(i, i+1)
     result = max(total_profit, result)
+    
 
 print(result)
