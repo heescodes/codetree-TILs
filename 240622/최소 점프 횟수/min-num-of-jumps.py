@@ -28,7 +28,7 @@ def jump(idx, jcnt):
     return -1
 
 jump(0,0)
-if result > n+1:
+if result == n+1:
     print(-1)
 else:
     print(result)
