@@ -22,7 +22,7 @@ def jump(idx, jcnt):
         jump(idx, jcnt)
         idx -= mov
         jcnt -= 1
-    return
+    return -1
 
 jump(0,0)
 
