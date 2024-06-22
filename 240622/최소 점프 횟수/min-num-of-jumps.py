@@ -11,7 +11,7 @@ def jump(idx, jcnt):
     #exit condition
     if idx == n-1:
         result = min(result, jcnt)
-        return result
+        return 0
     elif idx > n-1 or arr[idx] == 0:
         return -1    
 
@@ -22,8 +22,10 @@ def jump(idx, jcnt):
         jump(idx, jcnt)
         idx -= mov
         jcnt -= 1
+
     return -1
 
-jump(0,0)
-
-print(result)
+if jump(0,0) < 0:
+    print(-1)
+else:
+    print(result)
