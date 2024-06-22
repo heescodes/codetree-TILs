@@ -22,6 +22,7 @@ def choose(cnt):
 
     #normal
     for player in range(1, k+1): #플레이어 중 한명선택
+        #normal exception
         if positions[player] >= m:
             continue
         positions[player] += distances[cnt] #현재 턴에서 갈 수 있는 거리 더하기
@@ -31,7 +32,3 @@ def choose(cnt):
 
 choose(0)
 print(result)
-    
-    #for dis in distances:
-    #    positions[player] += dis
-    #    choose(cnt + 1, )
