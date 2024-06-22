@@ -15,7 +15,9 @@ def get_score():
 def choose(cnt):
     global result
 
+    #update result every turn
     result = max(result, get_score())
+
     #exit condition
     if cnt == n:
         return
