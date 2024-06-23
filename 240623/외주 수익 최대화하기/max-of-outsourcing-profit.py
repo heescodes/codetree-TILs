@@ -24,6 +24,9 @@ def start_date(worknum):
 def end_date(worknum):
     return worknum - 1 + tp[worknum-1][TIME]
 
+def get_time(worknum):
+    return tp[worknum-1][TIME]
+
 def get_profit(worknum):
     return tp[worknum-1][PROFIT]
 
@@ -34,10 +37,10 @@ def do_work(curwork, prework):
         update_res(curwork, prework)
         return
     #normal
-    for work in tp:
+    for w in range(curwork, n+1):
         res_profit += get_profit(curwork)
-        do_work(curwork + work[TIME], curwork)
-        res_profit -= get_profit(curwork)
+        do_work(curwork + get_time(w), curwork)
+        #res_profit -= get_profit(curwork)
     return
 
 do_work(1,0)
