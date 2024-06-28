@@ -20,7 +20,7 @@ def count_nodes(node):
         #print(f"idx,val:{idx},{val}")
         if val == CONNECTED:
             if visit[node] == VISITED:
-                return
+                continue
             else:
                 visit[node] = VISITED
                 ncnt += 1
