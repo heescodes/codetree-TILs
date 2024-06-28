@@ -7,6 +7,7 @@ N,M = map(int,input().split())
 
 arr = list(list(0 for _ in range(N+1)) for _ in range(N+1))
 visit = [0]*(N+1)
+visit[1] = 1
 
 def connect_nodes():
     for _ in range(M):
