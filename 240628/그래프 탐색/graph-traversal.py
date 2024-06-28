@@ -1,7 +1,7 @@
 CONNECTED=1
 VISITED=1
 N_VISITED=0
-ncnt = -1
+ncnt = 0
 
 N,M = map(int,input().split())
 
@@ -15,6 +15,8 @@ def connect_nodes():
         arr[b][a] = 1
 
 def count_nodes(node):
+    if M == 0:
+        return
     global ncnt
     for v in range(1, N+1):
         if arr[node][v] == CONNECTED and visit[v] == N_VISITED:
