@@ -1,7 +1,7 @@
 CONNECTED=1
 VISITED=1
 N_VISITED=0
-ncnt = 0
+ncnt = -1
 
 N,M = map(int,input().split())
 
@@ -16,15 +16,11 @@ def connect_nodes():
 
 def count_nodes(node):
     global ncnt
-    for idx,val in enumerate(arr[node]):
-        #print(f"idx,val:{idx},{val}")
-        if val == CONNECTED:
-            if visit[node] == VISITED:
-                continue
-            else:
-                visit[node] = VISITED
-                ncnt += 1
-                count_nodes(idx)
+    for v in range(1, N+1):
+        if arr[node][v] == CONNECTED and visit[v] == N_VISITED:
+            visit[v] = VISITED
+            ncnt += 1
+            count_nodes(v)
     return
 
 connect_nodes()
