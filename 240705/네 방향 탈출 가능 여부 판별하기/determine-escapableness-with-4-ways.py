@@ -24,7 +24,7 @@ def mov(dirnum, x, y):
     return x, y
 
 def is_escaped(x, y):
-    if (y == n-1) and (y == m-1):
+    if (y == n-1) and (x == m-1):
         return True
     else:
         False
@@ -35,10 +35,11 @@ def bfs():
         x, y = q.popleft()
         for i in range(_4WAY):
             nx, ny = mov(i, x, y)
-            if is_escaped(nx, ny):
-                return 1
-            elif is_valid(nx, ny):
+            if is_valid(nx,ny):
+                #print(f'nx,ny:{nx},{ny}')
                 q.append((nx,ny))
+            if is_escaped(nx,ny):
+                return 1  
     return 0
 
 print(bfs())
