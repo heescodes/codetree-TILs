@@ -33,14 +33,12 @@ def is_escaped(x, y):
 def bfs():
     init_pos()
     while q:
-        #print(f'q:{q}')
         x, y = q.popleft()
-        visited[y][x] = True
         for i in range(_4WAY):
             nx, ny = mov(i, x, y)
-            #print(f'(nx,ny):({nx},{ny})')
             if is_valid(nx,ny) and not(visited[ny][nx]):
                 q.append((nx, ny))
+                visited[ny][nx] = True
             else:
                 continue
             if is_escaped(nx,ny):
