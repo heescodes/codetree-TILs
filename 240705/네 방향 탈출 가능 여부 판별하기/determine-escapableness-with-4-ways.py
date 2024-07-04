@@ -2,7 +2,7 @@ from collections import deque
 _4WAY = 4
 n,m = map(int,input().split())
 arr = list(list(map(int, input().split())) for _ in range(n))
-print(arr)
+#print(arr)
 
 #[0]:동/[1]:서/[2]:남/[3]:북
 dx = [+1, -1, 0, 0] 
