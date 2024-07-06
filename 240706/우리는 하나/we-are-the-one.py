@@ -20,6 +20,11 @@ def valid_height(x,y,nx,ny):
 def move(x,y,dirnum):
     return x+dx[dirnum], y+dy[dirnum]
 
+def init_visited():
+    global visited
+    visited = [list(False for _ in range(n)) for _ in range(n)]
+
+
 def bfs_count(x,y):
     q.append((x,y))
     visited[y][x] = True
@@ -47,6 +52,12 @@ def make_k_comb(k):
 result = 0
 #print(make_k_comb(k))
 for pairs in make_k_comb(k):
+    tmp_cnt = 0
+    init_visited()
+    #print(pairs)
     for x,y in pairs:
-        result = max(result, bfs_count(x,y))
+        #print(f'x,y:({x},{y})')
+        tmp_cnt += bfs_count(x,y)
+    #print(tmp_cnt)
+    result = max(result, tmp_cnt)
 print(result)
