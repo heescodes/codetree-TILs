@@ -15,7 +15,7 @@ def is_snake(x, y):
 def get_minlen():
     q = deque([(0, 0)])
     visited = [[False] * m for _ in range(n)]
-    cnt = 0
+    distance = [[0] * m for _ in range(n)]
     visited[0][0] = True
 
     while q:
