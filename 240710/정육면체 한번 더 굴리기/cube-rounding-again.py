@@ -60,7 +60,7 @@ def move_dice(x,y,dirnum):
     dice_update(dirnum)
 
     if not(in_range(nx,ny)):
-        new_dirnum = dirnum+2%4
+        new_dirnum = (dirnum+2)%4
         nx = x + dx[new_dirnum]
         ny = y + dy[new_dirnum]
         dice_update(new_dirnum)
