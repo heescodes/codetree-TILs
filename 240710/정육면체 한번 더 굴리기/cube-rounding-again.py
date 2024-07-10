@@ -17,6 +17,7 @@ dy = [0,+1,0,-1]
 dice = [6,3,1,4,2,5]
 
 def dice_update(dirnum):
+    global dice
     tmp_dice = deepcopy(dice)
     #동
     if dirnum==0:
@@ -44,26 +45,31 @@ def dice_update(dirnum):
         dice[5] = tmp_dice[2]
 
 def get_direction(cx,cy,cdir):
-    ndir = cdir
     if dice[0] > arr[cy][cx]:
         ndir = (cdir + 1) % 4
-    if dice[0] < arr[cy][cx]:
+    elif dice[0] < arr[cy][cx]:
         ndir = (cdir - 1) % 4
+    else:
+        ndir = cdir % 4
     return ndir     
 
 def in_range(x,y):
     return 0<=x<n and 0<=y<n
 
 def move_dice(x,y,dirnum):
+    global direction
+
     nx = x + dx[dirnum]
     ny = y + dy[dirnum]
-    dice_update(dirnum)
-
-    if not(in_range(nx,ny)):
+    
+    if in_range(nx,ny):
+        dice_update(dirnum)
+    else:
         new_dirnum = (dirnum+2)%4
         nx = x + dx[new_dirnum]
         ny = y + dy[new_dirnum]
         dice_update(new_dirnum)
+        direction = new_dirnum
     return nx,ny 
 
 def get_score(cx,cy):
@@ -90,11 +96,12 @@ score = 0
 def simul(sx,sy):
     global direction, score
     x,y = move_dice(sx,sy,direction)
-    #print(f'bot:{dice[0]}',end=" ")
+    #print(f'dice:{dice}',end=" ")
     #print(f'({x},{y})',end=" ")
     score += get_score(x,y)
     #print(f'score={score}', end=" ")
     direction = get_direction(x,y,direction)
+    #print(f'arr,bot:{arr[y][x]},{dice[4]}')
     #print(f'direction={direction}')
     return x,y
 #####
