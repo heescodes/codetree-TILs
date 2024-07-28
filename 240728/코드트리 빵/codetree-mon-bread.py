@@ -1,4 +1,7 @@
+import sys
 from collections import deque
+
+INT_MAX = sys.maxsize
 
 ### Input ###
 n, m = map(int, input().split())
@@ -9,10 +12,22 @@ stores = [None] + [tuple(map(int, input().split())) for _ in range(m)]
 ##############
 
 ### Global ###
-dx = [0, -1, +1, 0]
-dy = [-1, 0, 0, +1]
+dx = [-1, 0, 0, 1]
+dy = [0, -1, 1, 0]
 player_cpos = [None] * (m + 1)
-player_visited = [None] + [list([False] * (n + 1) for _ in range(n + 1)) for _ in range(m)]
+cur_t = 0
+# bfs에 사용되는 변수들입니다.
+# 최단거리 결과 기록
+step = [
+    [0]*(n+1)
+    for _ in range(n+1)
+]
+# 방문 여부 표시
+visited = [
+    [False]*(n+1)
+    for _ in range(n+1)
+] 
+
 ban_list = list()
 done_cnt = 0
 ##############
@@ -27,7 +42,8 @@ def is_banned(pair):
     return arr[x][y] < 0
 
 def can_go(pair):
-    return is_range(pair) and not is_banned(pair)
+    x,y = pair
+    return is_range(pair) and not visited[x][y] and not is_banned(pair)
 
 def move(player, pair):
     player_cpos[player] = pair
@@ -40,103 +56,105 @@ def set_ban(pair):
 def get_base(player):  # BFS 기본포맷 익숙해지기
     found_base = []
     dq = deque()
-    visited = [[False] * (n + 1) for _ in range(n + 1)]
+    for i in range(n+1):
+        for j in range(n+1):
+            visited[i][j] = False
+
+    #_visited = [[False]*(n+1) for _ in range(n+1)]
     x, y = stores[player]
     dq.append((x, y))
     visited[x][y] = True
+    #_visited[x][y] = True
 
     while dq and not found_base:
-        for _ in range(len(dq)):
-            x, y = dq.popleft()
-            for i, j in zip(dx, dy):
-                nx, ny = x + i, y + j
-                if can_go((nx, ny)) and not visited[nx][ny]:
-                    dq.append((nx, ny))
-                    visited[nx][ny] = True
-                    if arr[nx][ny] == 1:
-                        found_base.append((nx, ny))
+        x, y = dq.popleft()
+        for i, j in zip(dx, dy):
+            nx, ny = x + i, y + j
+            if can_go((nx, ny)):
+                dq.append((nx, ny))
+                visited[nx][ny] = True
+                if arr[nx][ny] == 1:
+                    found_base.append((nx, ny))
     
     found_base.sort()  # sort 세부분석하기
     return found_base[0]
 
-def get_min_path(player, cpos):
-    min_path = deque()
-    dq = deque()
-    x, y = cpos
+def bfs(cur_pos):
+    for i in range(n+1):
+        for j in range(n+1):
+            visited[i][j] = False
+            step[i][j] = 0
     
-    dq.append(cpos)
-    visited = [[False] * (n + 1) for _ in range(n + 1)]  # BFS용 visited 배열
-    visited[x][y] = True
-    parent = {(x, y): None}
+    dq = deque()
+    dq.append(cur_pos)
+    sx,sy = cur_pos
+    visited[sx][sy] = True
+    step[sx][sy] = 0
 
     while dq:
-        x, y = dq.popleft()
-        for i, j in zip(dx, dy):
-            nx, ny = x + i, y + j
-            if cpos == (2, 2):
-                print(f'{nx, ny}의 visit여부: {visited[nx][ny]}')
-            if can_go((nx, ny)) and not visited[nx][ny]:
-                dq.append((nx, ny))
+        x,y = dq.popleft()
+        for i,j in zip(dx,dy):
+            nx,ny = x+i, y+j
+            if can_go((nx,ny)) and not visited[nx][ny]:
                 visited[nx][ny] = True
-                parent[(nx, ny)] = (x, y)
+                #최단거리 
+                dq.append((nx,ny))
+                step[nx][ny] = step[x][y] + 1
+    #print(f'step:{step}')
 
-                if (nx, ny) == stores[player]:
-                    print(f'(x, y), (nx, ny): {(x, y)}, {(nx, ny)}')
-                    pair = (nx, ny)
-                    while pair is not None:
-                        min_path.appendleft(pair)
-                        pair = parent[pair]
-                    return min_path
-    return None
-
-def save_ban_list(pair):
-    ban_list.append(pair)
-
-def do_ban():
-    while ban_list:
-        set_ban(ban_list.pop())
-
-def do_action(player, t):
-    global done_cnt
-    nxt_pos = None
+def do_action():
+    ##########
     # action_1
-    cur_pos = player_cpos[player]
-    print(f'cur_pos: {cur_pos}')
-    if cur_pos and cur_pos != stores[player]:
-        min_path = get_min_path(player, cur_pos)
-        print(f'min_path: {min_path}')
-        if min_path and len(min_path) > 0:
-            nxt_pos = min_path.popleft()
-            print(f'nxt_pos: {nxt_pos}')
-            if nxt_pos:
-                move(player, nxt_pos)
-    print(f'player, player_cpos[{player}] = {player}, {player_cpos[player]}')
+    ##########
+    for player in range(1,m+1):
+        if player_cpos[player] == None or player_cpos[player] == stores[player]:
+            continue
 
+        bfs(stores[player]) #핵심 아이디어: 편의점 -> 현재위치로 bfs 왜???
+
+        cx,cy = player_cpos[player]
+
+        min_dist = INT_MAX
+        min_x, min_y = -1, -1
+        for i, j in zip(dx,dy):
+            nx,ny = cx+i, cy+j
+            if is_range((nx,ny)) and visited[nx][ny] and min_dist > step[nx][ny]: # 핵심아이디어: 
+                min_dist = step[nx][ny]
+                min_x,min_y = nx,ny
+            
+        player_cpos[player] = (min_x, min_y)
+    
+    ##########
     # action_2
-    if player_cpos[player] == stores[player]:
-        x, y = player_cpos[player]
-        if not player_visited[player][x][y]:
-            player_visited[player][x][y] = True
-            save_ban_list((x, y))
-            done_cnt += 1
+    ##########
+    for player in range(1,m+1):
+        if player_cpos[player] == stores[player]:
+            pos = player_cpos[player]
+            set_ban(pos)
 
+    ##########
     # action_3
-    if t == player and t <= m:
-        x, y = get_base(player)
-        player_cpos[player] = (x, y)
-        print(f'player, base, player_cpos[{player}] = {player}, {(x, y)}, {player_cpos[player]}')
-        player_visited[player][x][y] = True
-        save_ban_list((x, y))
-#################
+    ##########
+    if cur_t > m:
+        return
 
-### main ###
-time = 1
-while done_cnt < m:
-    print(f'----------time: {time}----------')
-    for player in range(1, m + 1):
-        print(f'done_cnt = {done_cnt}')
-        do_action(player, time)
-    do_ban()
-    time += 1
+    base = get_base(cur_t)    #개선포인트: bfs 재활용할 수 있을텐데 ???
+    player_cpos[cur_t] = base
+    #print(f'cur_t,base,cpos:{cur_t},{base},{player_cpos[cur_t]}')
+    set_ban(base)
 
-print(time)
+
+def end():
+    for i in range(1,m+1):
+        if player_cpos[i] != stores[i]:
+            return False
+    return True
+
+#####################
+# main
+while True:
+    cur_t += 1
+    do_action()
+    if end():
+        break
+print(cur_t)
