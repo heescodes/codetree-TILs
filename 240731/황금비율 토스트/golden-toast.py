@@ -77,24 +77,21 @@ l = DoublyLinkedList()
 for i in bread:
     l.push_back(i)
 
-if l.size() != bread_count:
-    print("er")
 it = l.end()
 while recipe_count != 0:
     command = input()
     
     if command == 'L':
-        if it != l.begin()
+        if it != l.begin():
             it = it.prev
     elif command == 'R':
         if it != l.end():
             it = it.next
-    elif command.split()[0] == 'P'
+    elif command.split()[0] == 'P':
         l.insert(it, command.split()[1])
-        it = it.next
-    elif command == 'D'
-        if it != l.end()
-            l.erase(it)
+    elif command == 'D':
+        if it != l.end():
+            it = l.erase(it)
     recipe_count -= 1
 
 it = l.begin()
