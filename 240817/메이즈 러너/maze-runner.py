@@ -69,19 +69,18 @@ def get_squ_info(s_exit):
         #좌표따라 sq_pos 도출방식 달라지는 로직구현
 
 def rotate(squ_info):
-    N = squ_info[0]
-    tmp = [[None]*(N) for _ in range(N)]
+    sqlen = squ_info[0]
+    tmp = [[None]*(sqlen) for _ in range(sqlen)]
     x_off, y_off = squ_info[1]
-
-    for r in range(N):
-        for c in range(N):
-            print(f"---({N-(r-1)-1},{x_off + c-1})")
-            print(maze[(x_off + c-1)][N-(y_off + r-1)+1])
-            #print(maze[y_off + r-1][x_off + c-1])
-            #tmp[x_off + c-1][N-(y_off + r-1)+1] = maze[y_off + r-1][x_off + c-1]
     
-    print(tmp)
+    for r in range(0,sqlen):
+        for c in range(0,sqlen):
+            print(f"({x_off+(c)},{y_off+(r)})--->({(y_off+sqlen-1)-(y_off+r)+1},{x_off+(c-1)})")
+            tmp[(x_off+c)-1][N-(r-1)] = maze[(y_off+r)-1][(x_off+c)-1]
+    for r in range(sqlen):
+        for c in range(sqlen):
+            maze[(x_off+c)-1][sqlen-(y_off+r)] = tmp[(x_off+c)-1][sqlen-(y_off+r)]
 
-rotate((3,(1,1)))
+rotate((3,(3,3)))
  
 #def do_move:
