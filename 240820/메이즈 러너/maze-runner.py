@@ -89,6 +89,8 @@ def rotate(squ_info):
         for i in range(squlen):
             maze[(yoff+j)-1][(xoff+i)-1] = tmp[j][i]
 
+    #내구도 깎이는 로직추가
+
 
 ''' 
 def do_move:
